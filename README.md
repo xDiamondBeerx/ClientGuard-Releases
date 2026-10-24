@@ -1,23 +1,38 @@
-# ClientGuard downloads
+# ClientGuard
 
-Public downloads for ClientGuard. Plugin source and build logs are maintained in a separate private repository.
+Client and mod detection for Paper/Purpur 26.2. Requires Java 25.
 
-## Download
+Download [ClientGuard.jar](https://github.com/xDiamondBeerx/ClientGuard-Releases/releases/latest), put it in `plugins` and restart your server.
 
-Get **BmcClientGuard.jar** from [Releases](https://github.com/xDiamondBeerx/ClientGuard-Releases/releases/latest). Requires **Paper/Purpur 26.2 and Java 25**. The checksum is provided as SHA256SUMS.txt.
+Open `/cg` to view players, detected mods and previous alerts. Give staff `clientguard.staff` to access the menu. Each staff member can turn their chat notifications on or off. OPs also have access to settings and updates.
 
-Stop the server, install the JAR in plugins, and start the server. Keep only one ClientGuard JAR. The internal plugin/data folder name remains BmcClientGuard for compatibility.
+ClientGuard checks client brands, network channels, reported mods and supported resource checks during login. Detection depends on what the client exposes. A detected mod does not prove its features are enabled, and some mods cannot be detected reliably. ClientGuard does not ban players.
 
-## Use
+Discord is optional. Set your own webhook or DiscordSRV destination in the configuration.
 
-Open `/cg`. Grant `bmcclientguard.staff` to staff members. Actual OPs can manage settings, tests and updates. New installations have Discord disabled; configure your own guild/channel before enabling it. No anticheat plugin is required. All plugin text is English.
+## Updates
 
-ClientGuard recognizes available client/mod signals; it cannot guarantee a full installed mod list. Findings need staff review and do not prove a forbidden feature was used. No automatic bans are issued.
+Updates are checked 30 seconds after startup and every six hours. With automatic updates enabled, verified downloads are installed on the next server restart. OPs receive update notices. No GitHub token is needed.
 
-## Automatic updates
+## Upgrading from 1.12.x
 
-Version 1.12.0 and newer check this public repository after startup and every six hours. No user token is needed. OP Administration → Plugin updates controls checks and automatic downloads.
+This version renames the plugin and permissions. Install it manually once:
 
-Verified updates are staged for the next normal server restart. ClientGuard does not restart the server or replace the running JAR. OPs receive a ready/available notice and one saved confirmation after an installed upgrade starts successfully. Notifications ON/OFF also controls these messages. Version tracking starts with 1.12.0; the initial installation does not invent an update receipt.
+1. Stop the server and back up your plugin data.
+2. Remove the old plugin JAR and any queued copy from `plugins/update`.
+3. Add `ClientGuard.jar`. Keep only one installed copy.
+4. Change your permission grants to `clientguard.*` before starting the server. Update bypass and skip-probes grants too.
+5. Start the server. The previous data folder is moved to `plugins/ClientGuard` automatically. If both data folders already contain files, they are left untouched; choose the correct folder while the server is stopped.
 
-Back up plugin data before upgrading. Keep your current server API version compatible with the release requirements.
+Existing config, rules, history and notification preferences move with the folder. If you use a webhook environment variable, use `CLIENTGUARD_WEBHOOK` and set `discord.webhook-env` accordingly.
+
+## Permissions
+
+| Permission | Purpose |
+|---|---|
+| `clientguard.staff` | Staff menu and notifications |
+| `clientguard.bypass` | Keep monitoring records private to OPs |
+| `clientguard.skip-probes` | Skip join resource checks |
+
+Administration requires actual OP status. OP players are excluded from monitoring.
+
